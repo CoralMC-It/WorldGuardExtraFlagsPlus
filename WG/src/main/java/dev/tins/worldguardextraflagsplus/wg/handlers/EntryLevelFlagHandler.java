@@ -410,33 +410,7 @@ public class EntryLevelFlagHandler extends Handler
 		}
 		catch (Exception e)
 		{
-			// Fallback to sending message directly without cooldown if reflection fails
-			String message;
-			if ("entry-min-level-denied".equals(key))
-			{
-				// Extract required and current from replacements array
-				String required = replacements.length > 1 ? replacements[1] : "?";
-				String current = replacements.length > 3 ? replacements[3] : "?";
-				message = org.bukkit.ChatColor.RED + "Your level (" + current + ") is low to enter this area. " + 
-				       org.bukkit.ChatColor.GRAY + "Min: " + required;
-			}
-			else if ("entry-max-level-denied".equals(key))
-			{
-				// Extract required and current from replacements array
-				String required = replacements.length > 1 ? replacements[1] : "?";
-				String current = replacements.length > 3 ? replacements[3] : "?";
-				message = org.bukkit.ChatColor.RED + "Your level (" + current + ") is so high to enter this area. " + 
-				       org.bukkit.ChatColor.GRAY + "Max: " + required;
-			}
-			else
-			{
-				message = org.bukkit.ChatColor.RED + "Message not found: " + key;
-			}
-			
-			if (player.isOnline())
-			{
-				player.sendMessage(message);
-			}
+			dev.tins.worldguardextraflagsplus.wg.Messages.send(player, key, replacements);
 		}
 	}
 

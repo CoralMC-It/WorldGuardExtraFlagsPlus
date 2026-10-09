@@ -153,6 +153,12 @@
 	</repositories>
 
 	<dependencies>
+        <dependency>
+            <groupId>it.coralmc.tongue.lib</groupId>
+            <artifactId>bukkit</artifactId>
+            <version>1.5.0</version>
+            <scope>provided</scope>
+        </dependency>
 		<dependency>
 			<groupId>dev.tins.worldguardextraflagsplus</groupId>
 			<artifactId>wg</artifactId>

@@ -4,7 +4,6 @@ import de.exlll.configlib.NameFormatters;
 import de.exlll.configlib.YamlConfigurationProperties;
 import de.exlll.configlib.YamlConfigurations;
 import dev.tins.worldguardextraflagsplus.config.PluginMessages;
-import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -28,6 +27,7 @@ import java.util.logging.Level;
 public class Messages
 {
 	private static JavaPlugin plugin;
+	private static it.coralmc.tongue.lib.bukkit.BukkitTongue tongue;
 	private static PluginMessages messages;
 	private static Path messagesFile;
 	private static int messageCooldownSeconds;
@@ -45,6 +45,7 @@ public class Messages
 	public static void initialize(JavaPlugin plugin)
 	{
 		Messages.plugin = plugin;
+		Messages.tongue = it.coralmc.tongue.lib.bukkit.BukkitTongue.create(plugin, "worldguard-extraflags-plus");
 		
 		// Get WorldGuard plugin data folder
 		File worldGuardDataFolder = plugin.getServer().getPluginManager().getPlugin("WorldGuard").getDataFolder();
@@ -264,10 +265,10 @@ public class Messages
 	 * Supports placeholders: {key} will be replaced with values
 	 * Returns null if message is empty (disabled)
 	 */
-	public static String getMessage(String key, String... replacements)
+	public static String getMessage(Player viewer, String key, String... replacements)
 	{
 		// Get message from map (kebab-case key)
-		String message = messageMap.getOrDefault(key, "&cMessage not found: " + key);
+		String message = messageMap.get(key);
 		
 		// If message is empty string, return null (message disabled)
 		if (message == null || message.trim().isEmpty())
@@ -275,18 +276,12 @@ public class Messages
 			return null;
 		}
 		
-		// Replace placeholders
-		for (int i = 0; i < replacements.length; i += 2)
-		{
-			if (i + 1 < replacements.length)
-			{
-				message = message.replace("{" + replacements[i] + "}", replacements[i + 1]);
-			}
-		}
-		
-		// Translate color codes
-		return ChatColor.translateAlternateColorCodes('&', message);
+		return LocalizedMessages.render(tongue, viewer, message, replacements);
 	}
+	public static String configured(Player viewer, Player source, String configured) {
+		return configured == null ? "" : LocalizedMessages.render(tongue, viewer, source, configured);
+	}
+
 	
 	/**
 	 * Gets a raw message from the configuration without color translation.
@@ -310,7 +305,7 @@ public class Messages
 		}
 
 		// Get message
-		String message = getMessage(key, replacements);
+		String message = getMessage(player, key, replacements);
 		if (message == null)
 		{
 			return false; // Message disabled

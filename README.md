@@ -84,6 +84,8 @@ WorldGuard ExtraFlags Plus (WGEFP) is a plugin extension for [WorldGuard](https:
 
 - **`plugins/WorldGuard/config-wgefp.yml`** — plugin toggles (e.g. `all-flags-control.console-command-repeat`, `all-flags-control.console-command-timer`, `all-flags-control.check-order`, `require-membership`, `hide-players`, `verbose-startup-logs`).
 - **`plugins/WorldGuard/messages-wgefp.yml`** — all plugin messages. Placeholders: `{permission}`, `{required}`, `{current}`, `{item}`, `{workbench}`; message cooldown (default: 2 seconds) prevents spam.
+- Player notifications require Tongue 1.5.0 and are resolved per recipient in Italian, English and French. Defaults use `%tongue_worldguard-extraflags-plus:message.<key>%`; custom messages support Tongue references, MiniMessage, legacy colors and viewer PlaceholderAPI values. Empty messages remain disabled, and cooldown/protection behavior is unchanged.
+
 - Reload instantly with `/wgefp reload` or `/wg reload`.
 
 ## PlaceholderAPI

@@ -124,27 +124,7 @@ public class EntryPermissionFlagHandler extends Handler
 		}
 		catch (Exception e)
 		{
-			// Fallback to sending message directly without cooldown if reflection fails
-			String permission = replacements.length > 1 ? replacements[1] : "?";
-			final String message;
-			if ("entry-permission-denied".equals(key))
-			{
-				message = org.bukkit.ChatColor.RED + "You do not have the required permission to enter this area. " +
-					org.bukkit.ChatColor.GRAY + "Required: " + permission;
-			}
-			else if ("entry-deny-permission-denied".equals(key))
-			{
-				message = org.bukkit.ChatColor.RED + "You may not enter this area with the permission " + permission + ".";
-			}
-			else
-			{
-				message = org.bukkit.ChatColor.RED + "Message not found: " + key;
-			}
-
-			if (player.isOnline())
-			{
-				player.sendMessage(message);
-			}
+			dev.tins.worldguardextraflagsplus.wg.Messages.send(player, key, replacements);
 		}
 	}
 }

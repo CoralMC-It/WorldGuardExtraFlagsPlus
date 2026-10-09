@@ -60,44 +60,33 @@ public class EntityListener implements Listener
 	
 	// Workbench type mappings
 	private static final Map<Material, String> WORKBENCH_TYPE_MAP = new HashMap<>();
-	private static final Map<Material, String> WORKBENCH_DISPLAY_NAMES = new HashMap<>();
 	static
 	{
 		// Anvil types
 		WORKBENCH_TYPE_MAP.put(Material.ANVIL, "ANVIL");
 		WORKBENCH_TYPE_MAP.put(Material.CHIPPED_ANVIL, "ANVIL");
 		WORKBENCH_TYPE_MAP.put(Material.DAMAGED_ANVIL, "ANVIL");
-		WORKBENCH_DISPLAY_NAMES.put(Material.ANVIL, "Anvil");
-		WORKBENCH_DISPLAY_NAMES.put(Material.CHIPPED_ANVIL, "Anvil");
-		WORKBENCH_DISPLAY_NAMES.put(Material.DAMAGED_ANVIL, "Anvil");
 		
 		// Cartography table
 		WORKBENCH_TYPE_MAP.put(Material.CARTOGRAPHY_TABLE, "CARTOGRAPHY");
-		WORKBENCH_DISPLAY_NAMES.put(Material.CARTOGRAPHY_TABLE, "Cartography Table");
 		
 		// Crafting table
 		WORKBENCH_TYPE_MAP.put(Material.CRAFTING_TABLE, "CRAFT");
-		WORKBENCH_DISPLAY_NAMES.put(Material.CRAFTING_TABLE, "Crafting Table");
 		
 		// Ender chest
 		WORKBENCH_TYPE_MAP.put(Material.ENDER_CHEST, "ENDER");
-		WORKBENCH_DISPLAY_NAMES.put(Material.ENDER_CHEST, "Ender Chest");
 		
 		// Grindstone
 		WORKBENCH_TYPE_MAP.put(Material.GRINDSTONE, "GRINDSTONE");
-		WORKBENCH_DISPLAY_NAMES.put(Material.GRINDSTONE, "Grindstone");
 		
 		// Loom
 		WORKBENCH_TYPE_MAP.put(Material.LOOM, "LOOM");
-		WORKBENCH_DISPLAY_NAMES.put(Material.LOOM, "Loom");
 		
 		// Smithing table
 		WORKBENCH_TYPE_MAP.put(Material.SMITHING_TABLE, "SMITHING");
-		WORKBENCH_DISPLAY_NAMES.put(Material.SMITHING_TABLE, "Smithing Table");
 		
 		// Stonecutter
 		WORKBENCH_TYPE_MAP.put(Material.STONECUTTER, "STONECUTTER");
-		WORKBENCH_DISPLAY_NAMES.put(Material.STONECUTTER, "Stonecutter");
 	}
 
 	@EventHandler(ignoreCancelled = true)
@@ -641,13 +630,6 @@ public class EntityListener implements Listener
 		return false;
 	}
 	
-	/**
-	 * Gets the display name for a workbench block
-	 */
-	private String getWorkbenchDisplayName(Material blockMaterial)
-	{
-		return WORKBENCH_DISPLAY_NAMES.getOrDefault(blockMaterial, blockMaterial.name());
-	}
 	
 	/**
 	 * Sends blocked inventory crafting message
@@ -691,7 +673,7 @@ public class EntityListener implements Listener
 		if (isWorkbenchBlocked(localPlayer, blockMaterial, BukkitAdapter.adapt(block.getLocation())))
 		{
 			event.setCancelled(true);
-			sendWorkbenchBlocked(player, getWorkbenchDisplayName(blockMaterial));
+			sendWorkbenchBlocked(player, blockMaterial.name());
 		}
 	}
 	
@@ -861,7 +843,7 @@ public class EntityListener implements Listener
 					if (shouldBlock)
 					{
 						event.setCancelled(true);
-						sendWorkbenchBlocked(player, "Crafting");
+						sendWorkbenchBlocked(player, Material.CRAFTING_TABLE.name());
 					}
 				}
 			}

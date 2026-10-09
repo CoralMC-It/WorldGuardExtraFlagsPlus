@@ -139,11 +139,7 @@ public class PlayerCountLimitFlagHandler extends Handler
 		}
 		catch (Exception e)
 		{
-			// Fallback: send basic message if reflection fails
-			if (player.isOnline())
-			{
-				player.sendMessage("§cThis region is full! Maximum players: " + limit);
-			}
+			dev.tins.worldguardextraflagsplus.wg.Messages.send(player, "player-count-limit-denied", "limit", String.valueOf(limit));
 		}
 	}
 }
